@@ -9,10 +9,15 @@
 MODDIR=${0%/*}
 POLICY=/data/system/notification_policy.xml
 DP=/data/system/device_policies.xml
+LOG=/data/local/tmp/mdm_notif_hider.log
+echo "[$(date)] post-fs-data start" >> "$LOG"
 
 i=0
 while [ ! -f "$POLICY" ] && [ $i -lt 30 ]; do sleep 1; i=$((i+1)); done
 [ -f "$POLICY" ] || exit 0
+
+# File may be frozen from a previous boot - unfreeze so we can rewrite it.
+chattr -i "$POLICY" 2>/dev/null
 
 [ -f "$MODDIR/notification_policy.orig.xml" ] || cp "$POLICY" "$MODDIR/notification_policy.orig.xml" 2>/dev/null
 
@@ -51,8 +56,15 @@ BEGIN { n=split(targets,a," "); for(k=1;k<=n;k++) t[a[k]]=1; inside=0 }
 
 OBYTES=$(wc -c < "$POLICY" 2>/dev/null)
 NBYTES=$(wc -c < "$OUT" 2>/dev/null)
-if [ -s "$OUT" ] && grep -q "channel\|package\|notification" "$OUT" && [ "${NBYTES:-0}" -ge $(( ${OBYTES:-0} / 2 )) ]; then
+if [ -s "$OUT" ] && grep -qE "channel|package|notification" "$OUT" && [ "${NBYTES:-0}" -ge $(( ${OBYTES:-0} / 2 )) ]; then
   cat "$OUT" > "$POLICY"
+  # Freeze the file so the live NotificationManager can't re-raise the
+  # muted channels from its in-memory state during this session. Next boot
+  # we unfreeze above, rewrite, and re-freeze.
+  chattr +i "$POLICY" 2>/dev/null
+  echo "[$(date)] wrote+froze for: $TARGETS" >> "$LOG"
+else
+  echo "[$(date)] safeguard FAILED, not written (OBYTES=$OBYTES NBYTES=$NBYTES)" >> "$LOG"
 fi
 rm -f "$NORM" "$OUT"
 exit 0
