@@ -3,4 +3,4 @@ name=MDM Notification Hider
 version=v1.0
 versionCode=1
 author=the-curious-2025
-description=Personal module. Mutes the ongoing notification channels of the device-admin / device-owner app on my own phones so it doesn't permanently fill the status bar. The management app keeps running normally.
+description=Hides persistent notification channels from device management applications while keeping their services running normally.
