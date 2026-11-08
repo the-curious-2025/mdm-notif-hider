@@ -1,6 +1,6 @@
 #!/sbin/sh
 
-ui_print "- MDM Notification Hider (personal)"
+ui_print "- MDM Notification Hider"
 ui_print "- Mutes device-admin / device-owner notification channels"
 ui_print "- Add extra packages in targets.txt if needed"
 ui_print "- Reboot once or twice for it to settle"
