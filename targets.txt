@@ -1,11 +1,12 @@
-# Extra packages to mute (one Android package name per line).
+# Additional application packages to mute.
+# One Android package name per line.
 # Lines starting with # are ignored.
 #
-# Usually not needed: the module already auto-detects device-admin and
-# device-owner apps, which is what the management app registers as.
-# Add a line here only if a management app on one of my devices is a
-# plain app that is NOT a device admin.
+# Device Admin and Device Owner applications
+# are detected automatically.
 #
-# Find a package name with:  adb shell pm list packages | grep -i <name>
+# Add packages here only for applications
+# that are not registered as Device Admin or Device Owner.
 #
-# com.safecore.agent
+# Example:
+# com.example.management
