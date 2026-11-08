@@ -1,9 +1,10 @@
 #!/system/bin/sh
 #
-# Personal module - mutes the ongoing notification channels of the
-# device-admin / device-owner app on my own phones, so the status bar
-# isn't permanently taken up. Runs before SystemUI so the setting is
-# already in place when NotificationManager reads it.
+# Mutes persistent notification channels for selected
+# device-admin and device-owner applications.
+# Runs before SystemUI so the settings are applied
+# before NotificationManager loads its notification policy.
+#
 
 MODDIR=${0%/*}
 POLICY=/data/system/notification_policy.xml
