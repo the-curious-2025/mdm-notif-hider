@@ -1,5 +1,22 @@
 # Changelog
 
+## Unreleased
+- Add `systemui-qs-footer/`: documents and provides the smali patches for the
+  on-screen "managed device" indicators that the notification script cannot
+  reach, because SystemUI draws them itself rather than posting them as app
+  notifications:
+  - the Quick Settings "device belongs to your organization" disclosure footer
+    (`QSSecurityFooter`), and
+  - the VPN key icon in the status bar (`StatusBarSignalPolicy`).
+  Both are small, cosmetic, ROM-specific patches, built and deployed as one
+  Magisk overlay module. The management apps and the VPN keep running.
+  Built and tested on the Qin F21 Pro; the indicators are standard AOSP, so the
+  patches are not tied to any particular MDM.
+- `systemui-qs-footer/README.md`: note that the prebuilt module is Qin F21 Pro
+  only, and add a porting guide for other devices, including the signing-key
+  prerequisite that decides whether the method is possible at all.
+- README: add a section pointing to the above, with the device-scope note.
+
 ## v1.1
 - Fix the write-guard: it used `grep -q 'a\|b\|c'`, which toybox grep (on some
   ROMs) treats as a literal string, so the edit was silently skipped and nothing

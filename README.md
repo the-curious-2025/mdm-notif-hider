@@ -24,6 +24,27 @@ Its operation consists of three main steps:
 
 Applications that are not registered as Device Admin or Device Owner can also be targeted manually by adding their package names to `targets.txt`.
 
+## SystemUI management indicators
+
+The script above only governs app notification channels. It does not touch the
+indicators SystemUI draws itself when a device owner is present:
+
+- the disclosure line at the bottom of Quick Settings (for example *"This device
+  belongs to your organization and is connected to ..."*), and
+- the VPN key icon in the status bar, shown whenever a filtering VPN is active.
+
+Both are drawn by SystemUI, not posted by any app, so `notification_policy.xml`
+cannot reach them. Hiding them needs small, ROM-specific SystemUI patches. The
+exact changes and build steps are in [systemui-qs-footer/](systemui-qs-footer/).
+They are cosmetic only and fully reversible, and like the script they leave the
+management apps and the VPN running.
+
+**The prebuilt SystemUI module is for the Qin F21 Pro only** — it is a patched,
+re-signed copy of that one ROM's SystemUI. For other models the same patches have
+to be rebuilt from that device's own SystemUI; see
+[systemui-qs-footer/](systemui-qs-footer/) for a porting guide and the one
+prerequisite that decides whether it is even possible (the signing key).
+
 ## Installation
 
 **Requirements**

@@ -1,0 +1,18 @@
+# Patch for smali/com/android/systemui/statusbar/phone/StatusBarSignalPolicy.smali
+#
+# In updateVpn(), force the VPN status-bar icon (the key next to the signal /
+# SIM icons) to stay hidden. The visibility register below (v0) holds the
+# isVpnEnabled() result that is passed to setIconVisibility; set it to 0 right
+# before that call. The drawable is still assigned by the setIcon() call above,
+# it just never becomes visible. Match the register to the one your build
+# passes as the final argument of setIconVisibility in this method.
+
+@@ updateVpn()
+     iget-object p0, p0, Lcom/android/systemui/statusbar/phone/StatusBarSignalPolicy;->mSlotVpn:Ljava/lang/String;
+
++    # force VPN status-bar key icon hidden
++    const/4 v0, 0x0
++
+     invoke-interface {v1, p0, v0}, Lcom/android/systemui/statusbar/phone/StatusBarIconController;->setIconVisibility(Ljava/lang/String;Z)V
+
+     return-void

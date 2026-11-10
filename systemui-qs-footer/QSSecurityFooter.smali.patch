@@ -1,0 +1,15 @@
+# Patch for smali/com/android/systemui/qs/QSSecurityFooter.smali
+#
+# In handleRefreshState(), force mIsVisible to false so the Quick Settings
+# device-management disclosure footer is always GONE. One instruction added.
+# The register (v3 below) is whatever this build writes into mIsVisible; match
+# it to the single `iput-boolean <reg>, p0, ...->mIsVisible:Z` in that method.
+
+@@ handleRefreshState()
+     .line 156
+     :cond_3
+     :goto_1
++    # force QS security footer hidden (device-managed disclosure)
++    const/4 v3, 0x0
++
+     iput-boolean v3, p0, Lcom/android/systemui/qs/QSSecurityFooter;->mIsVisible:Z
