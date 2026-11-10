@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v1.2
 - Add `systemui-qs-footer/`: documents and provides the smali patches for the
   on-screen "managed device" indicators that the notification script cannot
   reach, because SystemUI draws them itself rather than posting them as app
